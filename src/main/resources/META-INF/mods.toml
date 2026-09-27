@@ -27,8 +27,15 @@ modId = "force_animation"
 version = "${force_animation_version}"
 logoFile = "force_animation_64x64.png"
 displayName = "Force Animation"
-authors = "Mattéo35"
+authors = "Mattéo 35"
 description = "Add a command to force players to play a animation"
+
+[[mods]]
+modId = "tpsum"
+version =  "${tpsum_version}"
+displayName = "tpsum by Mattéo 35"
+authors = "Mattéo 35"
+
 
 [[dependencies.force_animation]]
 modId = "forge"

@@ -2,5 +2,7 @@ pluginManagement {
     repositories {
         maven { url "https://maven.minecraftforge.net" }
         maven { url "https://maven.parchmentmc.org" }
+        maven { url = "https://jitpack.io" }
+        maven { url = "https://maven.enjarai.dev/mirrors" }
     }
 }
