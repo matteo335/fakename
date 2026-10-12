@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.matteo.fakename.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "server": ["CommandsMixin", "PlayerMixin", "PlayerListMixin", "ClientboundPlayerInfoUpdatePacketMixin", "ServerEntityMixin"],
+  "refmap": "fakename.refmap.json",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

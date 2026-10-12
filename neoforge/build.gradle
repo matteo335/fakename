@@ -1,0 +1,62 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+}
+
+base.archivesName = mod_id
+version = mod_version
+
+neoForge {
+    version = neoforge_version
+
+    runs {
+        client {
+            client()
+        }
+
+        server {
+            server()
+        }
+    }
+}
+
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+
+    maven {url "https://cursemaven.com" }
+    maven { url = "https://maven.bawnorton.com/releases" }
+}
+
+jar {
+    manifest {
+        attributes 'MixinConfigs': 'fakename.mixins.json'
+    }
+}
+
+/*
+processResources {
+    var properties = [
+            'forge_version' : forge_version,
+            'dev_forge_version' : dev_forge_version,
+            'minecraft_version' : minecraft_version,
+            'networklogger_version' : networklogger_version,
+            'force_animation_version' : force_animation_version,
+            'tpsum_version' : tpsum_version
+    ]
+
+    filesMatching(["META-INF/mods.toml"]) {
+        expand properties
+    }
+
+    inputs.properties(properties)
+}*/

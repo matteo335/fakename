@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "fakename",
+  "version": "0.0",
+  "name": "fakename",
+  "authors": [
+    "mattéo35"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "net.matteo.fakename.Main"
+    ]
+  },
+  "mixins": [
+    "fakename.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "*",
+    "java": "*"
+  }
+}
