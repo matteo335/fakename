@@ -1,12 +1,9 @@
 package net.matteo.fakename.mixins;
 
-import static net.matteo.fakename.Utils.*;
-import static net.matteo.fakename.Variables.*;
+import static net.matteo.fakename.utils.Variables.*;
 
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.authlib.GameProfile;
 
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,25 +28,18 @@ public class ClientboundPlayerInfoUpdatePacketMixin {
 
             String fakename = memoryCache.get(entry.profileId());
 
-            GameProfile old = entry.profile();
-            GameProfile profile = (old == null || !fakeProfile) ? old
-                    : new GameProfile(old.id(), profileName(fakename), old.properties());
-
-            if (fakename != null) {
-                newEntries.set(i, new ClientboundPlayerInfoUpdatePacket.Entry(
-                        entry.profileId(),
-                        profile,
-                        entry.listed(),
-                        entry.latency(),
-                        entry.gameMode(),
-                        Component.literal(profileName(fakename)),
-                        entry.showHat(),
-                        entry.listOrder(),
-                        entry.chatSession()
+            newEntries.set(i, new ClientboundPlayerInfoUpdatePacket.Entry(
+                    entry.profileId(),
+                    entry.profile(),
+                    entry.listed(),
+                    entry.latency(),
+                    entry.gameMode(),
+                    Component.literal(fakename),
+                    entry.showHat(),
+                    entry.listOrder(),
+                    entry.chatSession()
                 ));
             }
-
-        }
 
         entries = newEntries;
     }

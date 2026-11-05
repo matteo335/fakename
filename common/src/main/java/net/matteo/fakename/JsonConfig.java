@@ -1,6 +1,6 @@
 package net.matteo.fakename;
 
-import static net.matteo.fakename.Variables.*;
+import static net.matteo.fakename.utils.Variables.*;
 
 import com.google.gson.*;
 

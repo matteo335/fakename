@@ -2,8 +2,8 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.matteo.fakename.mixins",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": ["CommandsMixin", "PlayerMixin", "PlayerListMixin", "ClientboundPlayerInfoUpdatePacketMixin", "ServerEntityMixin"],
+  "compatibilityLevel": "JAVA_25",
+  "mixins": ["CommandsMixin", "PlayerMixin", "PlayerListMixin", "ClientboundPlayerInfoUpdatePacketMixin", "ServerEntityMixin", "DisplayInvoker", "TextDisplayInvoker"],
   "injectors": {
     "defaultRequire": 1
   }

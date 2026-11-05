@@ -1,7 +1,7 @@
 package net.matteo.fakename.mixins;
 
-import static net.matteo.fakename.Utils.*;
-import static net.matteo.fakename.Variables.*;
+import static net.matteo.fakename.utils.Utils.*;
+import static net.matteo.fakename.utils.Variables.*;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
@@ -27,7 +27,7 @@ public class PlayerListMixin {
 
         for (ServerPlayer player : players) {
             String fake = memoryCache.get(player.getUUID());
-            if (fake != null && profileName(fake).equalsIgnoreCase(name)) {
+            if (fake != null && fake.equalsIgnoreCase(name)) {
                 cir.setReturnValue(player);
                 return;
             }

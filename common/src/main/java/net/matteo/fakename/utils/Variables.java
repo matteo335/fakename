@@ -1,4 +1,4 @@
-package net.matteo.fakename;
+package net.matteo.fakename.utils;
 
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;

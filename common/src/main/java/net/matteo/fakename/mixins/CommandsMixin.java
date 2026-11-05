@@ -1,7 +1,7 @@
 package net.matteo.fakename.mixins;
 
-import static net.matteo.fakename.Utils.*;
-import static net.matteo.fakename.Variables.*;
+import static net.matteo.fakename.utils.Utils.*;
+import static net.matteo.fakename.utils.Variables.*;
 
 import net.matteo.fakename.JsonConfig;
 
@@ -56,9 +56,9 @@ public abstract class CommandsMixin {
                     return suggestionsBuilder.buildFuture();
                 }).executes(command -> handleRealname$fakename(command.getSource(), command.getArgument("fakename", String.class).replace("\"", "")))))
 
-                .then(literal("clear").then(argument("target", EntityArgument.players()))
+                .then(literal("clear").then(argument("target", EntityArgument.players())
                         .executes(command -> handleClear$fakename(command.getSource(), EntityArgument.getPlayer(command, "target"))))
-                .executes(command -> handleClear$fakename(command.getSource(), command.getSource().getPlayerOrException()))
+                .executes(command -> handleClear$fakename(command.getSource(), command.getSource().getPlayerOrException())))
 
                 .then(literal("set")
                         .then(argument("fakename", StringArgumentType.string())
@@ -142,7 +142,14 @@ public abstract class CommandsMixin {
             return 0;
         }
 
-        string = string.replace("&", "§") + "§r";
+
+        if (string.replaceAll("&.?", "").length() > 16) {
+            source.sendFailure(Component.literal("Vanilla allow a maximum of 16 characters!"));
+            return 0;
+        }
+
+
+        string = string.replace("&", "§");
         MutableComponent component = Component.empty();
         Style hover = Style.EMPTY.withHoverEvent(new HoverEvent.ShowText(Component.literal(player.getName().getString())));
         Style color = Style.EMPTY.withColor(TextColor.GREEN);
@@ -159,7 +166,7 @@ public abstract class CommandsMixin {
         }
 
         try {
-            Files.writeString(fileCache.resolve(profileName(player.getName().getString()) + ".txt").toFile().toPath(), string);
+            Files.writeString(fileCache.resolve(player.getName().getString() + ".txt").toFile().toPath(), string);
         } catch (Throwable exception) {
             try {
                 source.sendFailure(Component.literal("An error happened! Please report the issue in the github or discord: https://github.com/matteo335/fakename https://discord.gg/2EyYeFPqRK" + exception));
@@ -180,7 +187,7 @@ public abstract class CommandsMixin {
         }
 
         //noinspection ResultOfMethodCallIgnored
-        fileCache.resolve(profileName(player.getName().getString()) + ".txt").toFile().delete();
+        fileCache.resolve(player.getName().getString() + ".txt").toFile().delete();
         memoryCache.put(player.getUUID(), player.getName().getString());
         refresh(player);
 
@@ -206,7 +213,7 @@ public abstract class CommandsMixin {
                             }
                         } catch (Throwable exception) {
                             source.sendSystemMessage(Component.literal("The command errored! Please send the server log in\nhttps://github.com/matteo335/fakename or https://discord.gg/2EyYeFPqRK"));
-                            logger.error("Fakename exception, please report using the github or discord: https://github.com/matteo335/fakename https://discord.gg/2EyYeFPqRK" + exception);
+                            logger.error("Fakename exception, please report using the github or discord: https://github.com/matteo335/fakename https://discord.gg/2EyYeFPqRK\n" + exception.fillInStackTrace());
                         }
                     }
                 } else {
