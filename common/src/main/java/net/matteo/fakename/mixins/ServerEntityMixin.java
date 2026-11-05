@@ -1,6 +1,7 @@
 package net.matteo.fakename.mixins;
 
 import static net.matteo.fakename.Utils.*;
+import static net.matteo.fakename.Variables.*;
 
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +25,7 @@ public abstract class ServerEntityMixin {
     @Inject(method = "addPairing", at = @At("HEAD"))
     private void addPairing$head$fakename(ServerPlayer viewer, CallbackInfo ci) {
         if (entity instanceof ServerPlayer target && target != viewer && hasFake(target)) {
-            sendInfo(viewer, target, true);        // the entity is about to be built from this
+            sendInfo(viewer, target, true);
         }
     }
 
@@ -33,7 +34,7 @@ public abstract class ServerEntityMixin {
         if (entity instanceof ServerPlayer target && target != viewer) {
             trackers.put(target.getUUID(), (ServerEntity) (Object) this);
             viewers.computeIfAbsent(target.getUUID(), k -> new HashSet<>()).add(viewer);
-            if (hasFake(target)) sendInfo(viewer, target, false);   // back to the real name
+            if (hasFake(target)) sendInfo(viewer, target, false);
         }
     }
 

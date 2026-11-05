@@ -4,9 +4,9 @@ license = "MIT"
 
 [[mods]]
 modId = "fakename"
-version = "0.0"
+version = "${mod_version}"
 displayName = "fakename"
 authors= "Mattéo35"
 
-[[mixin]]
+[[mixins]]
 config = "fakename.mixins.json"

@@ -1,62 +1,51 @@
 plugins {
-    id 'multiloader-loader'
-    id 'net.neoforged.moddev'
+    id 'net.neoforged.moddev' version '2.0.147'
 }
 
-base.archivesName = mod_id
-version = mod_version
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
 
 neoForge {
-    version = neoforge_version
+    version = project.neoforge_version
 
     runs {
-        client {
+        MainDev {
             client()
+            gameDirectory = file("run/main_dev")
+            programArgument "--username=MainDev"
+        }
+
+        OffDev {
+            client()
+            gameDirectory = file("run/off_dev")
+            programArgument "--username=OffDev"
         }
 
         server {
             server()
         }
     }
-}
 
-repositories {
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
+    mods {
+        "${project.mod_id}" {
+            sourceSet sourceSets.main
         }
     }
-
-    maven {url "https://cursemaven.com" }
-    maven { url = "https://maven.bawnorton.com/releases" }
 }
 
-jar {
-    manifest {
-        attributes 'MixinConfigs': 'fakename.mixins.json'
-    }
+tasks.named('compileJava', JavaCompile) {
+    source rootProject.file("common/src/main/java")
 }
 
-/*
 processResources {
-    var properties = [
-            'forge_version' : forge_version,
-            'dev_forge_version' : dev_forge_version,
-            'minecraft_version' : minecraft_version,
-            'networklogger_version' : networklogger_version,
-            'force_animation_version' : force_animation_version,
-            'tpsum_version' : tpsum_version
-    ]
+    from rootProject.file('common/src/main/resources')
 
-    filesMatching(["META-INF/mods.toml"]) {
-        expand properties
+    var props = ['mod_version': mod_version]
+    inputs.properties props
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand props
     }
-
-    inputs.properties(properties)
-}*/
+}

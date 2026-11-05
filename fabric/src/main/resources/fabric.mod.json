@@ -1,16 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "fakename",
-  "version": "0.0",
+  "version": "${mod_version}",
   "name": "fakename",
   "authors": [
     "mattéo35"
   ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "net.matteo.fakename.Main"
@@ -22,6 +18,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "java": "*"
+    "java": ">=21"
   }
 }

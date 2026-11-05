@@ -1,6 +1,7 @@
 package net.matteo.fakename.mixins;
 
 import static net.matteo.fakename.Utils.*;
+import static net.matteo.fakename.Variables.*;
 
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.chat.Component;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 
-@SuppressWarnings({"rawtypes", "DataFlowIssue"})
+@SuppressWarnings({"rawtypes"})
 @Mixin(ClientboundPlayerInfoUpdatePacket.class)
 public class ClientboundPlayerInfoUpdatePacketMixin {
 
