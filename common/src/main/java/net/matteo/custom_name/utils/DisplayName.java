@@ -89,7 +89,7 @@ public final class DisplayName {
     }
 
     public static void track(ServerPlayer target, ServerPlayer viewer) {
-        VIEWERS.computeIfAbsent(target.getUUID(), _ -> new HashSet<>()).add(viewer);
+        VIEWERS.computeIfAbsent(target.getUUID(), uuid -> new HashSet<>()).add(viewer);
     }
 
     public static void untrack(ServerPlayer target, ServerPlayer viewer) {

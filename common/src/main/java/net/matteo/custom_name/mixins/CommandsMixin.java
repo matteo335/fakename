@@ -8,6 +8,7 @@ import net.matteo.custom_name.JsonConfig;
 import static net.minecraft.commands.Commands.literal;
 import static net.minecraft.commands.Commands.argument;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.*;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.*;
@@ -224,7 +225,7 @@ public abstract class CommandsMixin {
         string = string.replace("&", "§");
         MutableComponent component = Component.empty();
         Style hover = Style.EMPTY.withHoverEvent(new HoverEvent.ShowText(Component.literal(player.getName().getString())));
-        Style color = Style.EMPTY.withColor(TextColor.GREEN);
+        Style color = Style.EMPTY.withColor(ChatFormatting.GREEN);
 
         component.append(Component.literal(player.getDisplayName().getString()).withStyle(hover).withStyle(color).withStyle(Style.EMPTY.withUnderlined(true)));
         component.append(Component.literal("'s name is now " + string));
