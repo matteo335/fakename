@@ -1,7 +1,7 @@
-package net.matteo.fakename.utils;
+package net.matteo.custom_name.utils;
 
-import net.matteo.fakename.mixins.DisplayInvoker;
-import net.matteo.fakename.mixins.TextDisplayInvoker;
+import net.matteo.custom_name.mixins.DisplayInvoker;
+import net.matteo.custom_name.mixins.TextDisplayInvoker;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;

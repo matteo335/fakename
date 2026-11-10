@@ -1,4 +1,4 @@
-package net.matteo.fakename.mixins;
+package net.matteo.custom_name.mixins;
 
 import net.minecraft.world.entity.Display;
 

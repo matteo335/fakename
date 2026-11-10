@@ -1,4 +1,4 @@
-package net.matteo.fakename;
+package net.matteo.custom_name;
 
 import net.fabricmc.api.ModInitializer;
 

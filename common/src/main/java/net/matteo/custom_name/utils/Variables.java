@@ -1,4 +1,4 @@
-package net.matteo.fakename.utils;
+package net.matteo.custom_name.utils;
 
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +18,7 @@ public class Variables {
 
     public static Map<UUID, String> memoryCache = new HashMap<>();
     public static Path fileCache = null; //set in Utils
-    public static Path config = Path.of("config/fakename.json");
+    public static Path config = Path.of("config/custom_name.json");
 
     //set in JsonConfig
     public static PermissionCheck clearPermission = null;

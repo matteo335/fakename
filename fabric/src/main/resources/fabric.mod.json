@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "fakename",
+  "id": "custom_name",
   "version": "${mod_version}",
   "name": "fakename",
   "authors": [
@@ -13,7 +13,7 @@
     ]
   },
   "mixins": [
-    "fakename.mixins.json"
+    "custom_name.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",

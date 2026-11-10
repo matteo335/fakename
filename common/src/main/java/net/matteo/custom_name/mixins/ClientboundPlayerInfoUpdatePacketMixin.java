@@ -1,6 +1,6 @@
-package net.matteo.fakename.mixins;
+package net.matteo.custom_name.mixins;
 
-import static net.matteo.fakename.utils.Variables.*;
+import static net.matteo.custom_name.utils.Variables.*;
 
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.chat.Component;

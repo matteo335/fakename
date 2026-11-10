@@ -1,6 +1,6 @@
-package net.matteo.fakename.mixins;
+package net.matteo.custom_name.mixins;
 
-import static net.matteo.fakename.utils.Utils.*;
+import static net.matteo.custom_name.utils.Utils.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

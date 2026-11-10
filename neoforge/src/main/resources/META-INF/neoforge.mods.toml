@@ -3,10 +3,10 @@ loaderVersion = "[4,)"
 license = "MIT"
 
 [[mods]]
-modId = "fakename"
+modId = "custom_name"
 version = "${mod_version}"
 displayName = "fakename"
 authors= "Mattéo35"
 
 [[mixins]]
-config = "fakename.mixins.json"
+config = "custom_name.mixins.json"

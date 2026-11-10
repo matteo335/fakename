@@ -1,7 +1,6 @@
-package net.matteo.fakename.mixins;
+package net.matteo.custom_name.mixins;
 
-import static net.matteo.fakename.utils.Utils.*;
-import static net.matteo.fakename.utils.Variables.*;
+import static net.matteo.custom_name.utils.Variables.*;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;

@@ -1,13 +1,14 @@
-package net.matteo.fakename.mixins;
+package net.matteo.custom_name.mixins;
 
-import static net.matteo.fakename.utils.Utils.*;
-import static net.matteo.fakename.utils.Variables.*;
+import static net.matteo.custom_name.utils.Utils.*;
+import static net.matteo.custom_name.utils.Variables.*;
 
-import net.matteo.fakename.JsonConfig;
+import net.matteo.custom_name.JsonConfig;
 
 import static net.minecraft.commands.Commands.literal;
 import static net.minecraft.commands.Commands.argument;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.*;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.*;
@@ -18,7 +19,7 @@ import net.minecraft.server.permissions.Permission;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,7 +43,7 @@ public abstract class CommandsMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init$fakename(Commands.CommandSelection commandSelection, CommandBuildContext context, CallbackInfo ci) {
 
-        LiteralArgumentBuilder<CommandSourceStack> builder = literal("fakename")
+        LiteralCommandNode<CommandSourceStack> builder = getDispatcher().register(literal("customname")
 
                 .then(literal("real").then(argument("fakename", StringArgumentType.string()).suggests((command, suggestionsBuilder) -> {
                     for (ServerPlayer entry : command.getSource().getServer().getPlayerList().getPlayers()) {
@@ -57,8 +58,8 @@ public abstract class CommandsMixin {
                 }).executes(command -> handleRealname$fakename(command.getSource(), command.getArgument("fakename", String.class).replace("\"", "")))))
 
                 .then(literal("clear").then(argument("target", EntityArgument.players())
-                        .executes(command -> handleClear$fakename(command.getSource(), EntityArgument.getPlayer(command, "target"))))
-                .executes(command -> handleClear$fakename(command.getSource(), command.getSource().getPlayerOrException())))
+                                .executes(command -> handleClear$fakename(command.getSource(), EntityArgument.getPlayer(command, "target"))))
+                        .executes(command -> handleClear$fakename(command.getSource(), command.getSource().getPlayerOrException())))
 
                 .then(literal("set")
                         .then(argument("fakename", StringArgumentType.string())
@@ -76,15 +77,20 @@ public abstract class CommandsMixin {
                                 .then(literal("operator").executes(command -> {
                                     setPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
                                     command.getSource().sendSystemMessage(Component.literal("Changed set requirement to operators only"));
+
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
                                     return 1;
                                 }))
 
                                 .then(literal("self").executes(command -> {
                                     setPermission = null;
 
-                                    command.getSource().sendSystemMessage(Component.literal("Changed set requirement to self-change or operators"));
-                                    if (!JsonConfig.tryUpdate())
+                                    command.getSource().sendSystemMessage(Component.literal("Changed set requirement to self-change and operators"));
+                                    if (!JsonConfig.tryUpdate()) {
                                         command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
                                     return 1;
                                 }))
 
@@ -92,8 +98,74 @@ public abstract class CommandsMixin {
                                     setPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
 
                                     command.getSource().sendSystemMessage(Component.literal("Removed set requirement. Every players can now change the name of everyone else"));
-                                    if (!JsonConfig.tryUpdate())
+                                    if (!JsonConfig.tryUpdate()) {
                                         command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+                        )
+
+
+                        .then(literal("clear")
+                                .then(literal("operator").executes(command -> {
+                                    clearPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
+
+                                    command.getSource().sendSystemMessage(Component.literal("Changed clear requirement to operators only"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+
+                                .then(literal("self").executes(command -> {
+                                    clearPermission = null;
+
+                                    command.getSource().sendSystemMessage(Component.literal("Changed clear requirement to self-change and operators"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+
+                                .then(literal("everyone").executes(command -> {
+                                    clearPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
+
+                                    command.getSource().sendSystemMessage(Component.literal("Removed clear requirement. Every players can now clear the name of everyone else"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+                        )
+
+                        .then(literal("real")
+                                .then(literal("operator").executes(command -> {
+                                    realPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
+
+                                    command.getSource().sendSystemMessage(Component.literal("Changed real requirement to operators only"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+
+                                .then(literal("self").executes(command -> {
+                                    realPermission = null;
+
+                                    command.getSource().sendSystemMessage(Component.literal("Changed real requirement to self-change and operators"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
+                                    return 1;
+                                }))
+
+                                .then(literal("everyone").executes(command -> {
+                                    realPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
+
+                                    command.getSource().sendSystemMessage(Component.literal("Removed real requirement. Every players can now see the real name of everyone else"));
+                                    if (!JsonConfig.tryUpdate()) {
+                                        command.getSource().sendSystemMessage(Component.literal("Error while trying to update config, your change will not survive server restart"));
+                                    }
                                     return 1;
                                 }))
                         )
@@ -130,9 +202,10 @@ public abstract class CommandsMixin {
                             command.getSource().sendSystemMessage(Component.literal("Reloaded config from file"));
                             return 1;
                         }))
-                );
+                )
+        );
 
-        getDispatcher().register(builder);
+        getDispatcher().register(literal("fakename").executes(builder.getCommand()).redirect(builder));
     }
 
     @Unique
@@ -152,7 +225,7 @@ public abstract class CommandsMixin {
         string = string.replace("&", "§");
         MutableComponent component = Component.empty();
         Style hover = Style.EMPTY.withHoverEvent(new HoverEvent.ShowText(Component.literal(player.getName().getString())));
-        Style color = Style.EMPTY.withColor(TextColor.GREEN);
+        Style color = Style.EMPTY.withColor(ChatFormatting.GREEN);
 
         component.append(Component.literal(player.getDisplayName().getString()).withStyle(hover).withStyle(color).withStyle(Style.EMPTY.withUnderlined(true)));
         component.append(Component.literal("'s name is now " + string));
@@ -208,6 +281,12 @@ public abstract class CommandsMixin {
                     for (File file : fileCache.toFile().listFiles()) {
                         try {
                             if (Files.readString(file.toPath()).equals(string)) {
+
+                                if (source.isPlayer() && !hasRealPermission$fakename(source)) {
+                                    source.sendFailure(Component.literal("You do not have the permission to perform this command"));
+                                    return 0;
+                                }
+
                                 source.sendSystemMessage(Component.literal(string + "'s real name is " + file.getName()));
                                 return 1;
                             }
@@ -219,7 +298,7 @@ public abstract class CommandsMixin {
                 } else {
                     String name = source.getServer().getPlayerList().getPlayerByName(entry.getValue()).getGameProfile().name();
 
-                    if (source.isPlayer() && source.getPlayer().getGameProfile().name().equalsIgnoreCase(name) || !hasRealPermission$fakename(source)) {
+                    if (source.isPlayer() && !source.getPlayer().getGameProfile().name().equalsIgnoreCase(name) && !hasRealPermission$fakename(source)) {
                         source.sendFailure(Component.literal("You do not have the permission to perform this command"));
                         return 0;
                     }
@@ -255,7 +334,7 @@ public abstract class CommandsMixin {
         return self && setPermission == null || isAdmin || inPlayerList || setPermission != null && Commands.hasPermission(setPermission).test(source);
     }
 
-    @Unique
+    @Unique @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean hasRealPermission$fakename(CommandSourceStack source) {
         boolean isAdmin = source.getPlayer().permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
         boolean inPlayerList = playerPermissionList != null && source.isPlayer() && playerPermissionList.stream().anyMatch(name -> name.equalsIgnoreCase(source.getPlayer().getGameProfile().name()));

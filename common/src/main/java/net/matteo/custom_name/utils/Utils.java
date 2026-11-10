@@ -1,6 +1,6 @@
-package net.matteo.fakename.utils;
+package net.matteo.custom_name.utils;
 
-import static net.matteo.fakename.utils.Variables.*;
+import static net.matteo.custom_name.utils.Variables.*;
 
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;

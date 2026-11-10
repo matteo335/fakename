@@ -1,6 +1,6 @@
-package net.matteo.fakename;
+package net.matteo.custom_name;
 
-import static net.matteo.fakename.utils.Variables.*;
+import static net.matteo.custom_name.utils.Variables.*;
 
 import com.google.gson.*;
 
@@ -50,16 +50,19 @@ public class JsonConfig {
             switch (object.get("clearPermission").getAsString()) {
                 case "operator" -> clearPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
                 case "everyone" -> clearPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
+                default -> clearPermission = null;
             }
 
             switch (object.get("setPermission").getAsString()) {
                 case  "operator" -> setPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
                 case "everyone" -> setPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
+                default -> setPermission = null;
             }
 
             switch (object.get("realPermission").getAsString()) {
                 case "operator" -> realPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ADMINS));
                 case "everyone" -> realPermission = new PermissionCheck.Require(new Permission.HasCommandLevel(PermissionLevel.ALL));
+                default -> realPermission = null;
             }
 
             for (JsonElement array : object.getAsJsonArray("player_name")) {

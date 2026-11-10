@@ -1,8 +1,8 @@
-package net.matteo.fakename;
+package net.matteo.custom_name;
 
 import net.neoforged.fml.common.Mod;
 
-@Mod("fakename")
+@Mod("custom_name")
 public class Main {
 
     public Main() {
